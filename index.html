@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Saqlain Amin | Full-Stack Developer | Digital Business Solutions</title>
+  <!-- Tailwind CSS CDN (kept as requested) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom override to keep neumorphism + colors + animations, no external libraries except icons (Font Awesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Custom styles to refine neumorphism, animations, and carousel */
+    * {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #e5e5e5ff;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    }
+    /* Neumorphism base styling for cards, boxes, buttons */
+    .neumorph {
+      background: #e5e5e5ff;
+      box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+      border-radius: 2rem;
+      transition: all 0.25s ease-in-out;
+    }
+    .neumorph-hover:hover {
+      box-shadow: 5px 5px 12px #bebebe, -5px -5px 12px #ffffff;
+      transform: translateY(-4px);
+    }
+    .neumorph-btn {
+      background: #fca311ff;
+      box-shadow: 5px 5px 12px #bebebe, -5px -5px 12px #ffffff;
+      transition: 0.2s;
+    }
+    .neumorph-btn:active {
+      transform: scale(0.97);
+    }
+    /* animated electronic text */
+    .electronic-text {
+      display: inline-block;
+      background: linear-gradient(135deg, #14213dff, #fca311ff, #14213dff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 3s linear infinite, glitch 0.8s infinite alternate;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    @keyframes glitch {
+      0% { text-shadow: -1px 0 #fca311ff, 1px 0 #14213dff; }
+      100% { text-shadow: 1px 0 #fca311ff, -1px 0 #14213dff; }
+    }
+    /* animated auto-scroll carousel (right to left forever) */
+    @keyframes scrollRightToLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .carousel-track {
+      display: flex;
+      width: fit-content;
+      animation: scrollRightToLeft 28s linear infinite;
+    }
+    .carousel-container:hover .carousel-track {
+      animation-play-state: paused;
+    }
+    /* custom scroll */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e5e5e5ff;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #fca311ff;
+      border-radius: 10px;
+    }
+    /* smooth section padding */
+    section {
+      scroll-margin-top: 90px;
+    }
+    /* floating direct message button (static) */
+    .floating-dm {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background-color: #25D366;
+      color: white;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      cursor: pointer;
+      z-index: 50;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+    }
+    .floating-dm:hover {
+      transform: scale(1.05);
+      background-color: #128C7E;
+    }
+  </style>
+  <!-- override Tailwind defaults to match our color palette -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'black': '#000000ff',
+            'prussian': '#14213dff',
+            'orange': '#fca311ff',
+            'grey-light': '#e5e5e5ff',
+            'white': '#ffffffff',
+          },
+          fontFamily: {
+            'sans': ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.6s ease-out',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-grey-light text-prussian font-sans antialiased">
+
+  <!-- Fixed Header (Neumorphism influence) -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-grey-light/90 backdrop-blur-md shadow-md py-3 px-5 md:px-10 flex justify-between items-center flex-wrap gap-3 border-b border-white/30">
+    <!-- Logo: Saqlain bold bright + Amin normal -->
+    <div class="text-2xl md:text-3xl font-bold tracking-tight">
+      <span class="text-orange drop-shadow-sm">Saqlain</span>
+      <span class="text-prussian font-medium"> Amin</span>
+    </div>
+
+    <!-- Navbar middle (hidden on mobile, show on md+) -->
+    <nav class="hidden md:flex space-x-6 lg:space-x-8 text-prussian font-semibold">
+      <a href="#home" class="nav-link hover:text-orange transition duration-300">Home</a>
+      <a href="#about" class="nav-link hover:text-orange transition duration-300">About Me</a>
+      <a href="#skills" class="nav-link hover:text-orange transition duration-300">Skills</a>
+      <a href="#projects" class="nav-link hover:text-orange transition duration-300">Projects</a>
+      <a href="#testimonials" class="nav-link hover:text-orange transition duration-300">Testimonials</a>
+      <a href="#footer" class="nav-link hover:text-orange transition duration-300">Contact Us</a>
+    </nav>
+
+    <!-- CTA Hire Now (right side) -->
+    <div>
+      <a href="#contact-cta" class="neumorph-btn bg-orange text-white font-bold py-2 px-5 rounded-full shadow-md hover:shadow-lg transition transform hover:scale-105 inline-block">Hire Now</a>
+    </div>
+
+    <!-- Mobile menu simple dropdown (no external libraries but uses hidden checkbox approach? For simplicity we keep inline but provide a simple hamburger? Not mandatory, but better UX minimal: use a small menu icon for mobile nav -->
+    <div class="md:hidden relative">
+      <input type="checkbox" id="mobileMenuToggle" class="hidden peer">
+      <label for="mobileMenuToggle" class="cursor-pointer text-2xl text-prussian"><i class="fas fa-bars"></i></label>
+      <div class="peer-checked:flex hidden absolute right-0 top-10 bg-grey-light/95 backdrop-blur-md rounded-2xl p-4 w-48 flex-col space-y-3 shadow-xl z-50 neumorph">
+        <a href="#home" class="hover:text-orange font-semibold py-1">Home</a>
+        <a href="#about" class="hover:text-orange font-semibold py-1">About</a>
+        <a href="#skills" class="hover:text-orange font-semibold py-1">Skills</a>
+        <a href="#projects" class="hover:text-orange font-semibold py-1">Projects</a>
+        <a href="#testimonials" class="hover:text-orange font-semibold py-1">Testimonials</a>
+        <a href="#footer" class="hover:text-orange font-semibold py-1">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 md:pt-28 overflow-x-hidden">
+    <!-- Hero Section -->
+    <section id="home" class="max-w-7xl mx-auto px-5 md:px-10 py-12 md:py-20 flex flex-col md:flex-row items-center gap-12">
+      <!-- Left animated text -->
+      <div class="flex-1 text-center md:text-left animate-fade-up">
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+          I’ll make your business <br> 
+          <span class="electronic-text text-5xl md:text-7xl inline-block">electronic</span>
+        </h1>
+        <p class="mt-6 text-lg text-prussian/80 max-w-md mx-auto md:mx-0">4+ years of full-stack wizardry, 50+ successful projects. Let’s digitize your vision.</p>
+        <div class="mt-8">
+          <a href="#contact-cta" class="neumorph-btn bg-orange text-white font-bold py-3 px-8 rounded-full shadow-md inline-flex items-center gap-2 hover:bg-prussian transition">Hire Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <!-- Right side monotone graphic/image (unsplash style monotone developer image) -->
+      <div class="flex-1 flex justify-center">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format" alt="coding workspace monotone" class="rounded-3xl shadow-2xl max-w-full h-auto object-cover grayscale hover:grayscale-0 transition duration-500" style="filter: contrast(1.05) brightness(0.98);">
+      </div>
+    </section>
+
+    <!-- About Me Section: left animation/graphic + right paragraph -->
+    <section id="about" class="max-w-7xl mx-auto px-5 md:px-10 py-16 scroll-mt-20">
+      <div class="flex flex-col md:flex-row gap-12 items-center">
+        <!-- left side: relevant animation of graphic (monotone animation style) -->
+        <div class="flex-1 neumorph p-2 bg-grey-light flex justify-center items-center">
+          <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&auto=format" alt="developer animation" class="rounded-2xl w-full max-w-md transition-transform hover:scale-105 duration-500 grayscale-[0.3]">
+        </div>
+        <!-- right paragraph with modern heading -->
+        <div class="flex-1 space-y-5">
+          <h2 class="text-3xl md:text-4xl font-bold text-prussian border-l-8 border-orange pl-4">Crafting Digital Futures</h2>
+          <p class="text-prussian/80 leading-relaxed text-lg">I'm Saqlain Amin, a passionate full-stack developer with over 4 years of proven excellence and 50+ delivered projects ranging from e-commerce platforms to custom CRMs. My mission is to transform traditional business operations into sleek, automated digital ecosystems. I combine technical expertise with creative UI/UX so your brand stands out. Let’s collaborate to accelerate your digital transformation journey.</p>
+          <div class="flex gap-3 pt-3">
+            <span class="bg-white/60 px-4 py-1 rounded-full text-sm font-semibold">⚡ 50+ projects</span>
+            <span class="bg-white/60 px-4 py-1 rounded-full text-sm font-semibold">🏆 4+ years</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills / Services Section (4 boxes animated) -->
+    <section id="skills" class="max-w-7xl mx-auto px-5 md:px-10 py-16">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-prussian"><span class="text-orange">Expertise</span> & Services</h2>
+        <div class="w-24 h-1 bg-orange mx-auto mt-4 rounded-full"></div>
+        <p class="text-prussian/70 max-w-xl mx-auto mt-3">What I deliver to bring your business online</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
+        <!-- Box 1 Full Stack -->
+        <div class="neumorph neumorph-hover p-6 rounded-3xl bg-grey-light transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&auto=format" alt="Full stack" class="w-full h-40 object-cover rounded-xl mb-5 shadow-md">
+          <h3 class="text-2xl font-bold text-prussian">Full Stack Development</h3>
+          <p class="text-prussian/70 mt-2">End-to-end web apps, APIs, databases, and robust frontends.</p>
+        </div>
+        <!-- Box 2 UI/UX Design -->
+        <div class="neumorph neumorph-hover p-6 rounded-3xl bg-grey-light transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&auto=format" alt="UI/UX Design" class="w-full h-40 object-cover rounded-xl mb-5 shadow-md">
+          <h3 class="text-2xl font-bold text-prussian">UI/UX Design</h3>
+          <p class="text-prussian/70 mt-2">Stunning interfaces, wireframes to prototypes, human-centric design.</p>
+        </div>
+        <!-- Box 3 Video Editing -->
+        <div class="neumorph neumorph-hover p-6 rounded-3xl bg-grey-light transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1536240474400-5c281963b6b8?w=400&auto=format" alt="Video Editing" class="w-full h-40 object-cover rounded-xl mb-5 shadow-md">
+          <h3 class="text-2xl font-bold text-prussian">Video Editing</h3>
+          <p class="text-prussian/70 mt-2">Promo videos, editing, motion graphics for brand storytelling.</p>
+        </div>
+        <!-- Box 4 Wordpress -->
+        <div class="neumorph neumorph-hover p-6 rounded-3xl bg-grey-light transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&auto=format" alt="Wordpress" class="w-full h-40 object-cover rounded-xl mb-5 shadow-md">
+          <h3 class="text-2xl font-bold text-prussian">WordPress Solutions</h3>
+          <p class="text-prussian/70 mt-2">Custom themes, plugins, e-commerce and optimized CMS.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section: 4 boxes, each full width, left image right text -->
+    <section id="projects" class="max-w-7xl mx-auto px-5 md:px-10 py-16">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-prussian">Featured <span class="text-orange">Digital Creations</span></h2>
+        <div class="w-24 h-1 bg-orange mx-auto mt-4 rounded-full"></div>
+      </div>
+      <div class="space-y-12">
+        <!-- Project 1 -->
+        <div class="neumorph flex flex-col md:flex-row bg-grey-light rounded-3xl overflow-hidden shadow-xl">
+          <div class="md:w-2/5"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format" alt="ecommerce project" class="w-full h-full object-cover min-h-[220px]"></div>
+          <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-prussian">OmniMart E‑commerce</h3>
+            <p class="text-prussian/80 mt-2">Fully responsive full-stack platform with payment gateway, real-time inventory, and admin dashboard.</p>
+            <a href="#" class="mt-4 text-orange font-semibold inline-flex items-center gap-1">Preview <i class="fas fa-external-link-alt"></i></a>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="neumorph flex flex-col md:flex-row bg-grey-light rounded-3xl overflow-hidden shadow-xl">
+          <div class="md:w-2/5"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format" alt="analytics dashboard" class="w-full h-full object-cover min-h-[220px]"></div>
+          <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-prussian">FinTech Analytics Hub</h3>
+            <p class="text-prussian/80 mt-2">Interactive dashboards, real-time data visualization with robust backend integration.</p>
+            <a href="#" class="mt-4 text-orange font-semibold inline-flex items-center gap-1">Preview <i class="fas fa-external-link-alt"></i></a>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="neumorph flex flex-col md:flex-row bg-grey-light rounded-3xl overflow-hidden shadow-xl">
+          <div class="md:w-2/5"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format" alt="project management tool" class="w-full h-full object-cover min-h-[220px]"></div>
+          <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-prussian">CollabFlow Pro</h3>
+            <p class="text-prussian/80 mt-2">Team collaboration suite with task management, file sharing, and real-time chat.</p>
+            <a href="#" class="mt-4 text-orange font-semibold inline-flex items-center gap-1">Preview <i class="fas fa-external-link-alt"></i></a>
+          </div>
+        </div>
+        <!-- Project 4 -->
+        <div class="neumorph flex flex-col md:flex-row bg-grey-light rounded-3xl overflow-hidden shadow-xl">
+          <div class="md:w-2/5"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=500&auto=format" alt="mobile app" class="w-full h-full object-cover min-h-[220px]"></div>
+          <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-prussian">MediTrack Health</h3>
+            <p class="text-prussian/80 mt-2">Healthcare platform for appointment booking, telemedicine and patient records.</p>
+            <a href="#" class="mt-4 text-orange font-semibold inline-flex items-center gap-1">Preview <i class="fas fa-external-link-alt"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials: auto-moving carousel RTL forever -->
+    <section id="testimonials" class="max-w-7xl mx-auto px-5 md:px-10 py-16">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-prussian">Client <span class="text-orange">Love</span></h2>
+        <div class="w-24 h-1 bg-orange mx-auto mt-4 rounded-full"></div>
+      </div>
+      <div class="carousel-container overflow-hidden relative rounded-3xl py-6">
+        <div class="carousel-track flex gap-8">
+          <!-- duplicate items for seamless infinite loop -->
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl backdrop-blur-sm mx-2">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">Emily R.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i></div></div>
+            <p class="mt-3 italic">"Saqlain completely transformed our outdated system. His full-stack expertise saved us months of development!"</p>
+          </div>
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">Mark T.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star-half-alt text-orange"></i></div></div>
+            <p class="mt-3 italic">"The UI/UX design and speed of deployment is outstanding. Highly recommended for digital businesses."</p>
+          </div>
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/women/45.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">Sophia L.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i></div></div>
+            <p class="mt-3 italic">"WordPress project delivered ahead of schedule—clean, scalable and visually stunning."</p>
+          </div>
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/men/99.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">David K.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i></div></div>
+            <p class="mt-3 italic">"Video editing & branding boosted our engagement. Creative, reliable and tech-savvy."</p>
+          </div>
+          <!-- Duplicate for seamless -->
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">Emily R.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i></div></div>
+            <p class="mt-3 italic">"Saqlain completely transformed our outdated system. His full-stack expertise saved us months of development!"</p>
+          </div>
+          <div class="w-80 flex-shrink-0 bg-white/50 neumorph p-6 rounded-2xl">
+            <div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full object-cover" alt="client"><div><p class="font-bold">Mark T.</p><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star text-orange"></i><i class="fas fa-star-half-alt text-orange"></i></div></div>
+            <p class="mt-3 italic">"The UI/UX design and speed of deployment is outstanding. Highly recommended for digital businesses."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Dark background -->
+  <footer id="footer" class="bg-prussian text-white mt-10 pt-12 pb-8 px-5 md:px-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-2xl font-bold"><span class="text-orange">Saqlain</span> Amin</h3>
+        <p class="text-gray-300 mt-2">Digitizing businesses worldwide with full-stack mastery & creative solutions.</p>
+        <div class="flex gap-4 mt-4 text-xl">
+          <a href="#" class="hover:text-orange transition"><i class="fab fa-github"></i></a>
+          <a href="#" class="hover:text-orange transition"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="hover:text-orange transition"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-orange transition"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xl font-semibold mb-3 border-l-4 border-orange pl-3">Quick Links</h4>
+        <ul class="space-y-2 text-gray-300">
+          <li><a href="#home" class="hover:text-orange transition">Home</a></li>
+          <li><a href="#about" class="hover:text-orange transition">About Me</a></li>
+          <li><a href="#skills" class="hover:text-orange transition">Skills</a></li>
+          <li><a href="#projects" class="hover:text-orange transition">Projects</a></li>
+          <li><a href="#testimonials" class="hover:text-orange transition">Testimonials</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-xl font-semibold mb-3 border-l-4 border-orange pl-3">Demo Address</h4>
+        <address class="not-italic text-gray-300 space-y-2">
+          <p><i class="fas fa-map-marker-alt mr-2 text-orange"></i> 123 Innovation Drive, Tech Valley, SV 90210</p>
+          <p><i class="fas fa-envelope mr-2 text-orange"></i> hello@saqlainamin.dev</p>
+          <p><i class="fas fa-phone-alt mr-2 text-orange"></i> +1 (555) 789-0123</p>
+        </address>
+      </div>
+    </div>
+    <div class="text-center text-gray-400 border-t border-gray-700 mt-8 pt-6 text-sm">
+      © 2026 Saqlain Amin — Full Stack Developer. All concepts inspired for digital evolution.
+    </div>
+  </footer>
+
+  <!-- Floating Direct Message Button (static, WhatsApp style) -->
+  <div class="floating-dm">
+    <i class="fab fa-whatsapp"></i>
+  </div>
+
+  <!-- simple smooth routing without external libraries, already handled by html IDs + smooth scroll -->
+  <script>
+    // additional active link highlight during scroll (optional no library)
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+        if(pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('text-orange');
+        if(link.getAttribute('href') === `#${current}`) {
+          link.classList.add('text-orange');
+        }
+      });
+    });
+    // Mobile menu close on link click
+    const mobileLinks = document.querySelectorAll('#mobileMenuToggle ~ div a');
+    const toggleCheckbox = document.getElementById('mobileMenuToggle');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if(toggleCheckbox) toggleCheckbox.checked = false;
+      });
+    });
+    // Ensure no external libraries, carousel works pure css, perfect
+  </script>
+</body>
+</html>
